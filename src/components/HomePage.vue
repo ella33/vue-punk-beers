@@ -1,12 +1,12 @@
 <template>
   <div class="beer-wrapper" v-if="currentBeer.id">
     <div class="beer-info">
-      <h1 class="title">{{currentBeer.name}} ({{currentBeer.first_brewed}})</h1>
-      <span class="page-subtitle">{{currentBeer.tagline}}</span>
+      <h1 class="title">{{currentBeer.name}} ({{currentBeer.dob}})</h1>
+      <span class="page-subtitle text-small">{{currentBeer.tagline}}</span>
 
       <section class="brewer-tips">
         <span class="anchored-label">Brewer Tips</span>
-        <div>{{currentBeer.brewers_tips}}</div>
+        <div>{{currentBeer.brewersTips}}</div>
       </section>
 
       <p class="description">{{currentBeer.description}}</p>
@@ -14,19 +14,29 @@
       <section class="ingredients">
         <h2 class="subtitle">Ingredients</h2>
         <div class="details">
-          <div v-for="item in currentBeer.ingredients.malt" :key="item.name" class="item">
-            <span class="name">{{item.name}}</span>
-            <span class="amount">{{item.amount.value}}/{{item.amount.unit}}</span>
+          <div v-for="item in currentBeer.ingredients" :key="item.name" class="item">
+            <span>{{item.name}}</span>
+            <span class="text-small">{{item.amount.value}}/{{item.amount.unit}}</span>
           </div>
         </div>
       </section>
 
       <section class="food-pairing">
         <h2 class="subtitle">Food pairing</h2>
+        <div class="details">
+          <div v-for="item in currentBeer.foodPairing" :key="item" class="item">
+            <span>{{item}}</span>
+          </div>
+        </div>
       </section>
     </div>
 
-    <img :src="currentBeer.image_url" class="beer-preview" />
+    <div>
+      <img :src="currentBeer.imageUrl" class="beer-preview" />
+      <div v-for="{ label, value } in currentBeer.config" :key="label" class="text-small">
+        <strong>{{label}}:</strong> {{value}}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -63,13 +73,19 @@ section .subtitle {
   border-color: currentColor;
 }
 
+.text-small {
+  font-size: 14px;
+}
+
 .beer-wrapper {
+  background-color: rgba(255, 255, 255, .8);
   display: flex;
+  padding: 20px;
 }
 
 .beer-info {
   width: 36em;
-  padding: 0 25px;
+  padding-right: 25px;
 }
 
 .title {
@@ -79,7 +95,6 @@ section .subtitle {
 
 .page-subtitle {
   color: #B9A89B;
-  font-size: 14px;
 }
 
 .beer-preview {
@@ -123,12 +138,15 @@ section .subtitle {
   justify-content: center;
 }
 
-.item .amount {
-  font-size: 14px;
-}
-
 .food-pairing .subtitle {
   border-style: dashed;
   color: #C35355;
+}
+
+.food-pairing .item {
+  border-image: repeating-linear-gradient(45deg, #FFEACE 10%, #FF8888 30%) 7;
+  border-width: 7px;
+  border-style: solid;
+  padding: 5px;
 }
 </style>
