@@ -1,6 +1,7 @@
 <template>
   <div class="main" id="app">
     <HomePage />
+    <NotificationsBar />
   </div>
 </template>
 
@@ -10,6 +11,7 @@ import axios from 'axios';
 import VueAxios from 'vue-axios';
 import store from './store';
 import HomePage from './components/HomePage.vue';
+import NotificationsBar from './components/NotificationsBar.vue';
 
 Vue.use(VueAxios, axios);
 
@@ -17,6 +19,7 @@ export default {
   name: 'app',
   components: {
     HomePage,
+    NotificationsBar,
   },
   store,
 };
@@ -43,7 +46,7 @@ body {
   flex-direction: column;
   justify-content: center;
   padding: 0 50px;
-  background-image: linear-gradient(top, #F2635C 25%, #C95686 50%, #49567F 75%, #2F4858 100%);
+  background-image: linear-gradient(to top, #F2635C 25%, #C95686 50%, #49567F 75%, #2F4858 100%);
   background-position: 0px 0px;
   box-shadow: 5px 5px 10px rgba(255, 255, 255, .3);
   animation: animatedChange 40s linear infinite;

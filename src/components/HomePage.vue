@@ -1,30 +1,30 @@
 <template>
-  <div class="beer-wrapper" v-if="currentBeer.id">
-    <div class="beer-info">
-      <h1 class="title">{{currentBeer.name}} ({{currentBeer.dob}})</h1>
-      <span class="page-subtitle text-small">{{currentBeer.tagline}}</span>
+  <div :class="$style.beerWrapper" v-if="currentBeer.id">
+    <div :class="$style.beerInfo">
+      <h1 :class="$style.title">{{currentBeer.name}} ({{currentBeer.dob}})</h1>
+      <span :class="[$style.pageSubtitle, $style.textSmall]">{{currentBeer.tagline}}</span>
 
-      <section class="brewer-tips">
-        <span class="anchored-label">Brewer Tips</span>
+      <section :class="$style.brewerTips">
+        <span :class="$style.anchoredLabel">Brewer Tips</span>
         <div>{{currentBeer.brewersTips}}</div>
       </section>
 
-      <p class="description">{{currentBeer.description}}</p>
+      <p :class="$style.description">{{currentBeer.description}}</p>
 
-      <section class="ingredients">
-        <h2 class="subtitle">Ingredients</h2>
-        <div class="details">
-          <div v-for="item in currentBeer.ingredients" :key="item.name" class="item">
+      <section :class="$style.ingredients">
+        <h2 :class="$style.subtitle">Ingredients</h2>
+        <div :class="$style.details">
+          <div v-for="item in currentBeer.ingredients" :key="item.name" :class="$style.centeredItem">
             <span>{{item.name}}</span>
-            <span class="text-small">{{item.amount.value}}/{{item.amount.unit}}</span>
+            <span :class="$style.textSmall">{{item.amount.value}}/{{item.amount.unit}}</span>
           </div>
         </div>
       </section>
 
-      <section class="food-pairing">
-        <h2 class="subtitle">Food pairing</h2>
-        <div class="details">
-          <div v-for="item in currentBeer.foodPairing" :key="item" class="item">
+      <section :class="$style.foodPairing">
+        <h2 :class="$style.subtitle">Food pairing</h2>
+        <div :class="$style.details">
+          <div v-for="item in currentBeer.foodPairing" :key="item" :class="$style.centeredItem">
             <span>{{item}}</span>
           </div>
         </div>
@@ -32,8 +32,8 @@
     </div>
 
     <div>
-      <img :src="currentBeer.imageUrl" class="beer-preview" />
-      <div v-for="{ label, value } in currentBeer.config" :key="label" class="text-small">
+      <img :src="currentBeer.imageUrl" :class="$style.beerPreview" />
+      <div v-for="{ label, value } in currentBeer.config" :key="label" :class="$style.textSmall">
         <strong>{{label}}:</strong> {{value}}
       </div>
     </div>
@@ -55,35 +55,33 @@ export default {
     currentBeer: state => state.beers.currentBeer,
   }),
   methods: {
-    ...mapActions({
-      getRandomBeer: 'getRandomBeer',
-    }),
+    ...mapActions(['getRandomBeer']),
   },
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style module lang="scss">
 section {
   margin: 30px 0;
+
+  .subtitle {
+    border-width: 0 0 3px 0;
+    border-color: currentColor;
+  }
 }
 
-section .subtitle {
-  border-width: 0 0 3px 0;
-  border-color: currentColor;
-}
-
-.text-small {
+.textSmall {
   font-size: 14px;
 }
 
-.beer-wrapper {
-  background-color: rgba(255, 255, 255, .8);
+.beerWrapper {
+  background-color: #fefefe;
   display: flex;
   padding: 20px;
+  box-shadow: 8px 8px 30px #C3FCF1;
 }
 
-.beer-info {
+.beerInfo {
   width: 36em;
   padding-right: 25px;
 }
@@ -93,22 +91,22 @@ section .subtitle {
   margin-bottom: 0;
 }
 
-.page-subtitle {
+.pageSubtitle {
   color: #B9A89B;
 }
 
-.beer-preview {
+.beerPreview {
   height: 500px;
 }
 
-.brewer-tips {
+.brewerTips {
   padding: 12px;
   background: #FFEACE;
   border-radius: 10px;
   position: relative;
 }
 
-.anchored-label {
+.anchoredLabel {
   color: #f28e1c;
   border-radius: 10px;
   position: absolute;
@@ -119,9 +117,11 @@ section .subtitle {
   left: 3px;
 }
 
-.ingredients .subtitle {
-  border-style: dotted;
-  color: #00C26B;
+.ingredients {
+  .subtitle {
+    border-style: dotted;
+    color: #00C26B;
+  }
 }
 
 .details {
@@ -131,22 +131,27 @@ section .subtitle {
   grid-auto-columns: 1fr;
 }
 
-.details .item {
+.centeredItem {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;
 }
 
-.food-pairing .subtitle {
-  border-style: dashed;
-  color: #C35355;
+.foodPairing {
+  .subtitle {
+    border-style: dashed;
+    color: #C35355;
+  }
 }
 
-.food-pairing .item {
-  border-image: repeating-linear-gradient(45deg, #FFEACE 10%, #FF8888 30%) 7;
-  border-width: 7px;
-  border-style: solid;
-  padding: 5px;
+.foodPairing {
+  .centeredItem {
+    border-image: repeating-linear-gradient(45deg, #FFEACE 10%, #FF8888 30%) 7;
+    border-width: 7px;
+    border-style: solid;
+    padding: 5px;
+  }
 }
 </style>
